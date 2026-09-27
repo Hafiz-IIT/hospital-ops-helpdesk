@@ -1,0 +1,7 @@
+{
+  "category": "records",
+  "message": "I need a copy of my records",
+  "patient_reference": null,
+  "expected_status": "ASK",
+  "clinical_advice_expected": false
+}
