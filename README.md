@@ -41,3 +41,7 @@ Tests verify administrative routing, reference requirements and emergency escala
 
 ## License
 MIT.
+
+## Extended implementation
+
+- `admin_queue.py` queues routine administrative requests while keeping emergency escalations outside the routine queue.
