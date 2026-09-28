@@ -1,0 +1,14 @@
+[build-system]
+requires=["setuptools>=68"]
+build-backend="setuptools.build_meta"
+
+[project]
+name="hospital-ops-helpdesk"
+version="0.1.0"
+description="Administrative hospital-helpdesk router for appointments, billing, records and facilities with explicit emergency escalation."
+requires-python=">=3.10"
+license={text="MIT"}
+authors=[{name="Syed Hafiz Ali"}]
+
+[tool.setuptools]
+py-modules=["hospital_ops_helpdesk"]

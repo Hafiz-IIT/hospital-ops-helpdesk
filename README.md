@@ -1,16 +1,15 @@
 # Hospital Operations Helpdesk
 
-> **Administrative routing with an explicit safety boundary: operations help, not diagnosis.**
+> Administrative hospital-helpdesk router for appointments, billing, records and facilities with explicit emergency escalation.
 
-The historical healthcare/hospital project ideas risk becoming misleading if a small software demo is described as clinical AI. This repository therefore focuses on a safer, useful administrative slice: appointments, billing, records, facilities, missing identifiers, and urgent-language escalation.
+## Status
+**Reproducible prototype** with executable code, tests, CI, architecture, evaluation and roadmap documentation.
 
-## Implemented
-- appointment/billing/records/facilities routing
-- patient/reference requirement for sensitive admin requests
-- unknown-category abstention
-- high-risk emergency phrase escalation
-- structured ROUTE/ASK/ESCALATE responses
-- unit tests
+## Problem
+Hospital front desks receive mixed administrative and urgent messages. An administrative tool must route routine requests while refusing to perform clinical reasoning and escalating obvious emergencies.
+
+## Architecture
+Help request → emergency-language guard → admin category validation → reference/identity requirement → ROUTE / ASK / ESCALATE.
 
 ## Run
 ```bash
@@ -18,23 +17,27 @@ python -m unittest discover -s tests -v
 python hospital_ops_helpdesk.py
 ```
 
-## Repository map
-- `hospital_ops_helpdesk.py` — core implementation
-- `tests/` — deterministic tests
-- `examples/` — example request
-- `docs/architecture.md` — architecture
-- `docs/research-agenda.md` — experiments and research lineage
-- `STATUS.md` — exact claims boundary
-- `CITATION.cff` — citation metadata
-
-## Pipeline
-**request → emergency screen → admin category → required identifier → administrative route / ask / emergency escalate**
+## Implemented
+- Administrative categories
+- Emergency phrase guard
+- Appointment/billing/records/facilities routing
+- Reference requirement for sensitive admin requests
+- ASK/ROUTE/ESCALATE outcomes
+- Tests and CI
 
 ## Research lineage
-This is the conservative operations core derived from older Hospital Information System and 'Medilux' healthcare-command-center discussions. Clinical claims are intentionally excluded.
+- *Digital Twins for Healthcare and Wellness Applications*
+- *AI-Powered Early Warning Systems for Public Health*
+- *Human-Centered AI Design for Inclusive Digital Platforms*
 
-## Evaluation direction
-Use synthetic administrative requests with paraphrases, missing references, and clearly urgent language. Track routing coverage and unsafe administrative handling of emergency cases.
+## Evaluation
+Tests verify administrative routing, reference requirements and emergency escalation.
 
-## Maturity
-**Research prototype.** This project does not diagnose, interpret tests, recommend treatment, rank clinicians, triage clinical severity, or replace qualified medical/emergency professionals.
+## Limitations
+- Administrative only
+- No diagnosis or treatment
+- No medical-record integration
+- Keyword emergency guard is not a clinical triage system
+
+## License
+MIT.
