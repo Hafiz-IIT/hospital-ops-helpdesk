@@ -1,47 +1,43 @@
 # Hospital Operations Helpdesk
 
-> Administrative hospital-helpdesk router for appointments, billing, records and facilities with explicit emergency escalation.
+<p align="center"><strong>Administrative Routing With an Explicit Safety Boundary</strong><br/><sub>Handle routine operational requests without pretending to perform clinical reasoning.</sub></p>
 
-## Status
-**Reproducible prototype** with executable code, tests, CI, architecture, evaluation and roadmap documentation.
+<p align="center"><img src="https://img.shields.io/badge/status-reproducible%20prototype-blue" alt="Prototype"/> <img src="https://img.shields.io/badge/safety-boundary%20%7C%20admin%20only-red" alt="Administrative only"/></p>
 
-## Problem
-Hospital front desks receive mixed administrative and urgent messages. An administrative tool must route routine requests while refusing to perform clinical reasoning and escalating obvious emergencies.
+## Question
 
-## Architecture
-Help request → emergency-language guard → admin category validation → reference/identity requirement → ROUTE / ASK / ESCALATE.
+**How should a hospital helpdesk route administrative requests while preventing obvious emergencies from entering a routine queue?**
 
-## Run
-```bash
-python -m unittest discover -s tests -v
-python hospital_ops_helpdesk.py
+```
+Request
+  ↓
+Emergency-language guard
+  ├── ESCALATE
+  └── Administrative classification
+          ↓
+       ROUTE / ASK
 ```
 
+## Try it
+
+```bash
+python hospital_ops_helpdesk.py
+python -m unittest discover -s tests -v
+```
+
+`admin_queue.py` adds a priority queue for routine administrative requests while keeping escalated requests outside it.
+
 ## Implemented
-- Administrative categories
-- Emergency phrase guard
-- Appointment/billing/records/facilities routing
-- Reference requirement for sensitive admin requests
-- ASK/ROUTE/ESCALATE outcomes
-- Tests and CI
 
-## Research lineage
-- *Digital Twins for Healthcare and Wellness Applications*
-- *AI-Powered Early Warning Systems for Public Health*
-- *Human-Centered AI Design for Inclusive Digital Platforms*
+- appointment / billing / records / facilities routing
+- emergency phrase guard
+- reference requirements
+- administrative queue
+- explicit escalation
+- deterministic tests + CI
 
-## Evaluation
-Tests verify administrative routing, reference requirements and emergency escalation.
+## Critical boundary
 
-## Limitations
-- Administrative only
-- No diagnosis or treatment
-- No medical-record integration
-- Keyword emergency guard is not a clinical triage system
+This repository is **not a clinical decision system**. It does not diagnose, triage medically, prescribe, or replace professional care.
 
-## License
-MIT.
-
-## Extended implementation
-
-- `admin_queue.py` queues routine administrative requests while keeping emergency escalations outside the routine queue.
+Related: [College Ops Copilot Core](https://github.com/Hafiz-IIT/college-ops-copilot-core) · [~haf.s__ OS Core](https://github.com/Hafiz-IIT/hafs-os-core)
