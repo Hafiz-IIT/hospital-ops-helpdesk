@@ -36,7 +36,7 @@ class HelpRequest:
 
 
 def route(request: HelpRequest) -> dict:
-    message = re.sub(r"\\s+", " ", request.message.casefold()).strip()
+    message = re.sub(r"\s+", " ", request.message.casefold()).strip()
     if any(phrase in message for phrase in EMERGENCY_PHRASES):
         return {
             "route": "emergency",
