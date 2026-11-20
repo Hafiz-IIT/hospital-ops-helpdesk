@@ -24,6 +24,11 @@ class HospitalHelpdeskTests(unittest.TestCase):
             with self.subTest(message=message):
                 self.assertEqual(route(HelpRequest("billing", message))["status"], "ESCALATE")
 
+    def test_typographic_apostrophe_emergency_phrase_escalates(self):
+        result = route(HelpRequest("appointment", "I can’t breathe"))
+        self.assertEqual(result["status"], "ESCALATE")
+        self.assertEqual(result["route"], "emergency")
+
     def test_invalid_request_fields_are_rejected(self):
         for args in (("", "message"), ("billing", " "), ("billing", "message", " ")):
             with self.subTest(args=args), self.assertRaises(ValueError):
