@@ -43,7 +43,8 @@ class HelpRequest:
 def route(request: HelpRequest) -> dict:
     if not isinstance(request, HelpRequest):
         raise TypeError("request must be a HelpRequest")
-    message = re.sub(r"\s+", " ", request.message.casefold()).strip()
+    message = request.message.casefold().replace("’", "'").replace("‘", "'")
+    message = re.sub(r"\s+", " ", message).strip()
     if any(phrase in message for phrase in EMERGENCY_PHRASES):
         return {
             "route": "emergency",
