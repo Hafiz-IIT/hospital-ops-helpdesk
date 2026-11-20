@@ -33,8 +33,9 @@ class HospitalHelpdeskTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             HelpRequest("billing", "x" * 4001)
 
-    def test_empty_message_requests_clarification(self):
-        self.assertEqual(route(HelpRequest("appointment", "   "))["status"], "ASK")
+    def test_empty_message_rejected_at_request_boundary(self):
+        with self.assertRaises(ValueError):
+            HelpRequest("appointment", "   ")
 
 
 if __name__ == "__main__":
