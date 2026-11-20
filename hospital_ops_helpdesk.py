@@ -6,10 +6,16 @@ from dataclasses import dataclass
 EMERGENCY_PHRASES = (
     "can't breathe",
     "cannot breathe",
+    "shortness of breath",
+    "difficulty breathing",
+    "breathing difficulty",
     "unconscious",
-    "severe chest pain",
+    "unresponsive",
+    "chest pain",
     "heavy bleeding",
     "stroke symptoms",
+    "stroke",
+    "seizure",
 )
 
 ROUTES = {
@@ -28,7 +34,11 @@ class HelpRequest:
 
 
 def route(request: HelpRequest) -> dict:
-    message = request.message.lower()
+    if not isinstance(request.category, str) or not isinstance(request.message, str):
+        raise ValueError("category and message must be strings")
+    if not request.message.strip():
+        raise ValueError("message must be non-empty")
+    message = request.message.casefold()
     if any(phrase in message for phrase in EMERGENCY_PHRASES):
         return {
             "route": "emergency",
@@ -43,7 +53,9 @@ def route(request: HelpRequest) -> dict:
             "message": "Select an administrative category: appointment, billing, records, or facilities.",
         }
 
-    if request.category in {"billing", "records"} and not request.patient_reference:
+    if request.category in {"billing", "records"} and (
+        not isinstance(request.patient_reference, str) or not request.patient_reference.strip()
+    ):
         return {
             "route": ROUTES[request.category],
             "status": "ASK",
