@@ -29,13 +29,20 @@ class HelpRequest:
     patient_reference: str | None = None
 
     def __post_init__(self):
-        if not isinstance(self.category, str) or not isinstance(self.message, str):
-            raise ValueError("category and message must be strings")
-        if self.patient_reference is not None and not isinstance(self.patient_reference, str):
-            raise ValueError("patient_reference must be a string when supplied")
+        if not isinstance(self.category, str) or not self.category.strip():
+            raise ValueError("category must be a non-empty string")
+        if not isinstance(self.message, str) or not self.message.strip() or len(self.message) > 4000:
+            raise ValueError("message must contain 1-4000 non-whitespace characters")
+        if self.patient_reference is not None:
+            if not isinstance(self.patient_reference, str) or not self.patient_reference.strip():
+                raise ValueError("patient_reference must be non-empty when supplied")
+            if len(self.patient_reference) > 120:
+                raise ValueError("patient_reference must be at most 120 characters")
 
 
 def route(request: HelpRequest) -> dict:
+    if not isinstance(request, HelpRequest):
+        raise TypeError("request must be a HelpRequest")
     message = re.sub(r"\s+", " ", request.message.casefold()).strip()
     if any(phrase in message for phrase in EMERGENCY_PHRASES):
         return {
