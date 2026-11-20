@@ -24,6 +24,15 @@ class HospitalHelpdeskTests(unittest.TestCase):
             with self.subTest(message=message):
                 self.assertEqual(route(HelpRequest("billing", message))["status"], "ESCALATE")
 
+    def test_invalid_request_fields_are_rejected(self):
+        for args in (("", "message"), ("billing", " "), ("billing", "message", " ")):
+            with self.subTest(args=args), self.assertRaises(ValueError):
+                HelpRequest(*args)
+
+    def test_oversized_message_rejected(self):
+        with self.assertRaises(ValueError):
+            HelpRequest("billing", "x" * 4001)
+
     def test_empty_message_requests_clarification(self):
         self.assertEqual(route(HelpRequest("appointment", "   "))["status"], "ASK")
 
